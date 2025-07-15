@@ -1,6 +1,6 @@
 Name:           lz4
 Version:        1.8.3
-Release:        3%{?dist}
+Release:        5%{?dist}
 Summary:        Extremely fast compression algorithm
 
 License:        GPLv2+ and BSD
@@ -10,6 +10,9 @@ Source0:        https://github.com/Cyan4973/lz4/archive/v%{version}/%{name}-%{ve
 Obsoletes:      %{name} < 1.7.5-3
 
 Patch1: lz4-cve-2021-3520.patch
+Patch2: cve-2019-17543-part1.patch
+Patch3: cve-2019-17543-part2.patch
+Patch4: cve-2019-17543-part3.patch
 
 %description
 LZ4 is an extremely fast loss-less compression algorithm, providing compression
@@ -81,6 +84,15 @@ chmod +x ./configure
 %{_libdir}/liblz4.a
 
 %changelog
+* Fri Jun 20 2025 Jakub Martisko <jamartis@redhat.com> - 1.8.3-5
+- Fix a renamed variable in one of the patches
+- Since the variable was used in an assert, the regular build did not fail, but the QA builds did.
+- Related: RHEL-87362
+
+* Thu Jun 19 2025 Jakub Martisko <jamartis@redhat.com> - 1.8.3-4
+- Fix CVE-2019-17543
+- Resolves: RHEL-87362
+
 * Fri May 07 2021 Jakub Martisko <jamartis@redhat.com> - 1.8.3-3
 - Fix memory corruption due to an integer overflow
 _ Resolves: CVE-2021-3520
